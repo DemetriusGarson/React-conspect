@@ -62,7 +62,7 @@ export default function AppModule1({
     <>
       {modules.module1 && (
         <>
-          <h1>MODULE_1</h1>
+          <h1>MODULE_1: Компоненти та стан</h1>
           <MailBox username="User" messages={['message', 'tra']} />
           <Product name="React" price={1} imgUrl="/" />
           <Product name="Next" price={2} imgUrl="/" />

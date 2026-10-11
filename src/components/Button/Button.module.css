@@ -7,11 +7,16 @@
 }
 
 .primary {
-  background-color: royalblue;
+  background-color: #4169e1;
   color: white;
 }
 
 .secondary {
   background-color: lightgray;
   color: black;
+}
+
+.button:hover {
+  outline: 1px solid black;
+  opacity: 0.8;
 }
