@@ -13,7 +13,10 @@ import { fetchArticles } from '../../../services/articleService';
 import axios from 'axios';
 import Timer from '../../Timer/Timer';
 import Modal from '../../Modal/Modal';
-import Modal2 from '../../Modal2/Modal2';
+// import PersonInfo from '../../Person/PersonInfo';
+import PersonInfo2 from '../../PersonInfo2/PersonInfo2';
+// import Modal2 from '../../Modal2/Modal2';
+// import Modal3 from '../../Modal3/Modal3';
 
 interface AppModule2Props {
   modules: Modules;
@@ -35,6 +38,7 @@ export default function AppModule2({
   const [articles, setArticles] = useState<Article[]>([]);
 
   const [person, setPerson] = useState(null);
+  const [showPerson, setShowPerson] = useState<boolean>(false);
   const [count, setCount] = useState<number>(1);
   const [isTimerOpen, setIsTimerOpen] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -73,7 +77,7 @@ export default function AppModule2({
   //   console.log(count);
   // }, [count]);
 
-  console.log('App Rendered');
+  console.log('App Rendered', person);
 
   const handleOrder = ({
     username,
@@ -105,6 +109,10 @@ export default function AppModule2({
     }
   };
 
+  const toggleShowPerson = () => {
+    setShowPerson(!showPerson);
+  };
+
   const openModal = () => {
     setIsModal(true);
   };
@@ -120,9 +128,9 @@ export default function AppModule2({
           <div>
             <Button text="Open Modal" onClick={openModal} />
             {isModal && (
-              <Modal2 onClose={closeModal}>
+              <Modal onClose={closeModal}>
                 <p>Props children</p>
-              </Modal2>
+              </Modal>
             )}
           </div>
           <div>
@@ -142,14 +150,27 @@ export default function AppModule2({
             {isError && <ErrorMessage />}
             {articles.length > 0 && <ArticlesList articles={articles} />}
           </div>
-
           <div>
             <Button
-              text={count.toString()}
-              onClick={() => {
-                setCount(count + 1);
-              }}
-            />
+              text={showPerson ? 'Hide Person Block' : 'Show Person Block'}
+              onClick={toggleShowPerson}
+            ></Button>
+            {showPerson && (
+              <>
+                <Button
+                  text="Show next Person"
+                  onClick={() => {
+                    setCount(count + 1);
+                  }}
+                />
+                {person && (
+                  <>
+                    <p>{`Current person No: ${count}`}</p>
+                    <PersonInfo2 person={person} />
+                  </>
+                )}
+              </>
+            )}
           </div>
 
           <div>
