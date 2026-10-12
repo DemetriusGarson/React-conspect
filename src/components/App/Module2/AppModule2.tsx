@@ -37,11 +37,26 @@ export default function AppModule2({
   const [isError, setIsError] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
 
-  const [person, setPerson] = useState(null);
   const [showPerson, setShowPerson] = useState<boolean>(false);
-  const [count, setCount] = useState<number>(1);
+  const [person, setPerson] = useState(null);
+  const [count, setCount] = useState<number>(() => {
+    const savedCount = window.localStorage.getItem('count');
+    if (savedCount !== null) {
+      return JSON.parse(savedCount);
+    }
+    return 1;
+  });
+
   const [isTimerOpen, setIsTimerOpen] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
+
+  const [clicks, setClicks] = useState<number>(() => {
+    const savedClicks = window.localStorage.getItem('clicks');
+    if (savedClicks !== null) {
+      return JSON.parse(savedClicks);
+    }
+    return 0;
+  });
 
   useEffect(() => {
     console.log('You can see me only once');
@@ -49,6 +64,7 @@ export default function AppModule2({
 
   useEffect(() => {
     // console.log('First Effect');
+    window.localStorage.setItem('count', JSON.stringify(count));
     const fetchCharacter = async () => {
       try {
         const response = await axios.get(
@@ -67,15 +83,9 @@ export default function AppModule2({
     };
   }, [count]);
 
-  // useEffect(() => {
-  //   // console.log('Second Effect');
-  //   if (!person) return;
-  //   // console.log(`Second Effect, Person:${person}`);
-  // }, [person]);
-
-  // useEffect(() => {
-  //   console.log(count);
-  // }, [count]);
+  useEffect(() => {
+    window.localStorage.setItem('clicks', JSON.stringify(clicks));
+  }, [clicks]);
 
   console.log('App Rendered', person);
 
@@ -125,6 +135,8 @@ export default function AppModule2({
       {modules.module2 && (
         <>
           <h1>MODULE_2: Форми та ефекти</h1>
+
+          <h2>Block: Modal</h2>
           <div>
             <Button text="Open Modal" onClick={openModal} />
             {isModal && (
@@ -133,23 +145,27 @@ export default function AppModule2({
               </Modal>
             )}
           </div>
+
+          <h2>Block: Forms</h2>
           <div>
             <SimpleForm />
             <ReactForm />
           </div>
 
+          <h2>Block: Place your order</h2>
           <div>
-            <h2>Place your order</h2>
             <OrderForm onSubmit={handleOrder} />
           </div>
 
+          <h2>Block: Enter search text</h2>
           <div>
-            <h2>Enter search text</h2>
             <SearchForm onSubmit={handleSearch} />
             {isLoading && <Loader />}
             {isError && <ErrorMessage />}
             {articles.length > 0 && <ArticlesList articles={articles} />}
           </div>
+
+          <h2>Block: Person</h2>
           <div>
             <Button
               text={showPerson ? 'Hide Person Block' : 'Show Person Block'}
@@ -157,12 +173,26 @@ export default function AppModule2({
             ></Button>
             {showPerson && (
               <>
+                <h3>Person Navigation</h3>
                 <Button
-                  text="Show next Person"
+                  text="< Show previous Person "
+                  onClick={() => {
+                    if (count !== 1) setCount(count - 1);
+                  }}
+                />
+                <Button
+                  text="Show next Person >"
                   onClick={() => {
                     setCount(count + 1);
                   }}
                 />
+                <Button
+                  text="Reset Person"
+                  onClick={() => {
+                    setCount(1);
+                  }}
+                />
+
                 {person && (
                   <>
                     <p>{`Current person No: ${count}`}</p>
@@ -173,6 +203,7 @@ export default function AppModule2({
             )}
           </div>
 
+          <h2>Block: Timer </h2>
           <div>
             <Button
               text={isTimerOpen ? 'Hide Timer' : 'Show Timer'}
@@ -181,6 +212,15 @@ export default function AppModule2({
               }}
             />
             {isTimerOpen && <Timer />}
+          </div>
+
+          <h2>Block: Clicks to local Storage </h2>
+          <div>
+            <Button
+              text={String(clicks)}
+              onClick={() => setClicks(clicks + 1)}
+            />
+            <Button text="Reset clicks" onClick={() => setClicks(0)} />
           </div>
 
           <Button
