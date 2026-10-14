@@ -16,3 +16,10 @@ export interface Person {
   edited: string;
   url: string;
 }
+
+export interface FetchPersonTotalPagesResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Person[];
+}

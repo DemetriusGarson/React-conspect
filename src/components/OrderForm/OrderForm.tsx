@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import Button from '../Button/Button';
-import type { handleOrderProps } from '../App/Module2/AppModule2';
+import type { handleOrderProps } from '../App/Module3/AppModule3';
 import css from './OrderForm.module.css';
 
 interface OrderFormProps {
