@@ -1,5 +1,7 @@
 import axios from 'axios';
 import type {
+  FetchPersonsRequest,
+  FetchPersonsResponse,
   FetchPersonTotalPagesResponse,
   Person,
 } from '../components/types/Person';
@@ -16,5 +18,15 @@ export async function fetchPersonTotalPages(): Promise<FetchPersonTotalPagesResp
     'https://swapi.dev/api/people/',
   );
   console.log(response.data);
+  return response.data;
+}
+
+export async function fetchPersons({ page }: FetchPersonsRequest) {
+  const response = await axios.get<FetchPersonsResponse>(
+    'https://swapi.dev/api/people/',
+    {
+      params: { page },
+    },
+  );
   return response.data;
 }

@@ -23,3 +23,14 @@ export interface FetchPersonTotalPagesResponse {
   previous: string | null;
   results: Person[];
 }
+
+export interface FetchPersonsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Person[];
+}
+
+export interface FetchPersonsRequest {
+  page: number;
+}

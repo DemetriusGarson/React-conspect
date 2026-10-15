@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Loader from '../../Loader/Loader';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import Pagination from '../../Pagination/Pagination';
+import InfinitePagination from './Blocks/InfinitePagination/InfinitePagination';
 
 interface AppModule4Props {
   modules: Modules;
@@ -61,7 +62,10 @@ export default function AppModule4({
     queries: [
       {
         queryKey: ['person', personCount],
-        queryFn: () => fetchPerson(personCount),
+        queryFn: (context) => {
+          console.log('Context:', context);
+          return fetchPerson(personCount);
+        },
         enabled: isShowPerson,
         placeholderData: keepPreviousData,
       },
@@ -85,8 +89,8 @@ export default function AppModule4({
       {modules.module4 && (
         <>
           <h1>MODULE_4 React Query, Formik</h1>
+          <h2> Block: Use Query,Person</h2>
           <div>
-            <h2> Block: Use Query,Person</h2>
             <Button
               text={isShowPerson ? 'Hide Person' : 'Show Person'}
               variant={isShowPerson ? 'primary' : undefined}
@@ -117,12 +121,12 @@ export default function AppModule4({
                     <button type="submit">Enter</button>
                   </form>
                 </div>
-                <div>
+                <div className="personInfo">
                   {(isPersonLoading || isTotalPagesLoading) && <Loader />}
                   {isPersonError && <ErrorMessage err={personError} />}
                   {isTotalPagesError && <ErrorMessage err={totalPagesError} />}
                   {person && (
-                    <div>
+                    <div className="pagination">
                       {IsTotalPagesSuccess && totalPages > 0 && (
                         <Pagination
                           totalPages={totalPages}
@@ -137,6 +141,8 @@ export default function AppModule4({
               </div>
             )}
           </div>
+          <h2>Block: InfinitePagination</h2>
+          <InfinitePagination />
 
           <Button
             text={modules.module4 ? 'Hide module_4' : 'Show module4'}
