@@ -12,6 +12,7 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import Pagination from '../../Pagination/Pagination';
 import InfinitePagination from './Blocks/InfinitePagination/InfinitePagination';
 import InfinitePaginationScroll from './Blocks/InfinitePaginationScroll/InfinitePaginationScroll';
+import FormikBlock from './Blocks/FormikBlock/FormikBlock';
 
 interface AppModule4Props {
   modules: Modules;
@@ -23,6 +24,7 @@ export default function AppModule4({
 }: AppModule4Props) {
   const [isShowPerson, setIsShowPerson] = useState<boolean>(false);
   const [personCount, setPersonCount] = useState<number>(1);
+  const [isFormikBlock, setIsFormikBlock] = useState<boolean>(false);
 
   // const {
   //   data: person,
@@ -146,6 +148,15 @@ export default function AppModule4({
           <InfinitePagination />
           <h2>Block: InfinitePaginationScroll</h2>
           <InfinitePaginationScroll />
+          <h2>Block: Formik</h2>
+          <Button
+            text={isFormikBlock ? 'Hide FormikBlock' : 'Show FormikBlock'}
+            variant={isFormikBlock ? 'primary' : undefined}
+            onClick={() => {
+              setIsFormikBlock(!isFormikBlock);
+            }}
+          />
+          <div>{isFormikBlock && <FormikBlock />}</div>
 
           <Button
             text={modules.module4 ? 'Hide module_4' : 'Show module4'}
