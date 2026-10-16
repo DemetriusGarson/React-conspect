@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from '../../../../Button/Button';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { fetchPersons } from '../../../../../services/personService';
 import PersonsList from '../../../../PersonsList/PersonsList';
 
@@ -19,10 +19,11 @@ export default function InfinitePagination() {
       const nextPage = Number(nextPageURL.searchParams.get('page'));
       return nextPage;
     },
-    enabled: isPersonList,
     select: (data) => {
       return { ...data, persons: data.pages.flatMap((page) => page.results) };
     },
+    enabled: isPersonList,
+    placeholderData: keepPreviousData,
   });
 
   const persons = data?.persons ?? [];

@@ -1,4 +1,4 @@
-import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import Button from '../../Button/Button';
 import type { ModuleOptions, Modules } from '../../types/Modules';
 import {
@@ -11,6 +11,7 @@ import Loader from '../../Loader/Loader';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import Pagination from '../../Pagination/Pagination';
 import InfinitePagination from './Blocks/InfinitePagination/InfinitePagination';
+import InfinitePaginationScroll from './Blocks/InfinitePaginationScroll/InfinitePaginationScroll';
 
 interface AppModule4Props {
   modules: Modules;
@@ -143,6 +144,8 @@ export default function AppModule4({
           </div>
           <h2>Block: InfinitePagination</h2>
           <InfinitePagination />
+          <h2>Block: InfinitePaginationScroll</h2>
+          <InfinitePaginationScroll />
 
           <Button
             text={modules.module4 ? 'Hide module_4' : 'Show module4'}
