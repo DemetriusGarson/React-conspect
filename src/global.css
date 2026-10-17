@@ -1,13 +1,13 @@
 :root {
   --color-background-primary: #fff;
-  --color-background-secondary: #c4f5f5;
+  --color-background-secondary: #f0f8ff;
 
   --color-text-primary: #222;
 
   --font-family-primary: Arial;
-  --font-size-primary: 16px;
+  --font-size-primary: auto;
 
-  --line-height-primary: 1.5px;
+  --line-height-primary: auto;
 
   --min-width-primary: 320px;
 }
@@ -18,10 +18,12 @@
   box-sizing: border-box;
 }
 
+/*
 * {
   margin: 0;
   padding: 0;
 }
+*/
 
 html {
   scroll-behavior: smooth;
@@ -31,7 +33,7 @@ body {
   min-width: var(--min-width-primary);
   min-height: 100vh;
   font-family: var(--font-family-primary), sans-serif;
-  font-size: var(--font-size-primary);
+  /* font-size: var(--font-size-primary); */
   line-height: var(--line-height-primary);
   background-color: var(--color-background-primary);
   color: var(--color-text-primary);
