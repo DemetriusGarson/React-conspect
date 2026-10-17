@@ -1,13 +1,14 @@
-import { Field, Form, Formik, type FormikHelpers } from 'formik';
 import css from './FormikOrderForm.module.css';
+import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from 'formik';
 import { useId } from 'react';
+import * as Yup from 'yup';
 
 interface FormikOrderFormValues {
   username: string;
   email: string;
-  deliveryTime: string;
-  delivery: string;
-  restrictions: string[];
+  deliveryTime: '' | 'morning' | 'afternoon' | 'evening';
+  delivery: 'pickup' | 'courier' | 'drone';
+  restrictions: ('vegan' | 'gluten-free' | 'nut-free')[];
   comment: string;
 }
 
@@ -19,6 +20,32 @@ const initialValues: FormikOrderFormValues = {
   restrictions: [],
   comment: '',
 };
+
+const FormikOrderFormSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, 'Username must be at least 2 characters')
+    .max(30, 'Name is to long')
+    .required('Username is required'),
+  email: Yup.string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  deliveryTime: Yup.string().oneOf(
+    ['', 'morning', 'afternoon', 'evening'],
+    'Delivery Time must be one of these values: (""|morning|afternoon|evening)',
+  ),
+
+  delivery: Yup.string().oneOf(
+    ['pickup', 'courier', 'drone'],
+    'Delivery Method must be one of these values: (pickup|courier|drone)',
+  ),
+  restrictions: Yup.array().of(
+    Yup.string().oneOf(
+      ['vegan', 'gluten-free', 'nut-free'],
+      'Restrictions must be are these values:(vegan | gluten-free | nut-free)',
+    ),
+  ),
+  comment: Yup.string(),
+});
 
 export default function FormikOrderForm() {
   const formId = useId();
@@ -35,6 +62,7 @@ export default function FormikOrderForm() {
       <h4>FormikOrderForm</h4>
       <Formik
         initialValues={initialValues}
+        validationSchema={FormikOrderFormSchema}
         onSubmit={handleFormikOrderFormSubmit}
       >
         {(formikProps) => {
@@ -54,6 +82,11 @@ export default function FormikOrderForm() {
                   name="username"
                   id={`${formId}-username`}
                 />
+                <ErrorMessage
+                  name="username"
+                  component="p"
+                  className={css.error}
+                />
 
                 <label className={css.label} htmlFor={`${formId}-email`}>
                   Email
@@ -64,6 +97,11 @@ export default function FormikOrderForm() {
                   type="email"
                   name="email"
                   id={`${formId}-email`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className={css.error}
                 />
               </fieldset>
               <fieldset className={css.fieldset}>
@@ -91,6 +129,11 @@ export default function FormikOrderForm() {
                     Evening (16:00–20:00)
                   </option>
                 </Field>
+                <ErrorMessage
+                  name="deliveryTime"
+                  component="p"
+                  className={css.error}
+                />
 
                 <fieldset className={css.fieldset}>
                   <legend className={css.legend}>Delivery Method:</legend>
@@ -124,6 +167,11 @@ export default function FormikOrderForm() {
                       value="drone"
                     />
                   </label>
+                  <ErrorMessage
+                    name="delivery"
+                    component="p"
+                    className={css.error}
+                  />
                 </fieldset>
 
                 <fieldset className={css.fieldset}>
@@ -158,6 +206,11 @@ export default function FormikOrderForm() {
                       value="nut-free"
                     />
                   </label>
+                  <ErrorMessage
+                    name="restrictions"
+                    component="p"
+                    className={css.error}
+                  />
                 </fieldset>
 
                 <fieldset className={css.fieldset}>
@@ -166,6 +219,11 @@ export default function FormikOrderForm() {
                     as="textarea"
                     className={css.textarea}
                     name="comment"
+                  />
+                  <ErrorMessage
+                    name="comment"
+                    component="p"
+                    className={css.error}
                   />
                 </fieldset>
               </fieldset>
