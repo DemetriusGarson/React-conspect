@@ -13,6 +13,7 @@ import Pagination from '../../Pagination/Pagination';
 import InfinitePagination from './Blocks/InfinitePagination/InfinitePagination';
 import InfinitePaginationScroll from './Blocks/InfinitePaginationScroll/InfinitePaginationScroll';
 import FormikBlock from './Blocks/FormikBlock/FormikBlock';
+import InfinitePaginationSelect from './Blocks/InfinitePaginationSelect/InfinitePaginationSelect';
 
 interface AppModule4Props {
   modules: Modules;
@@ -25,6 +26,7 @@ export default function AppModule4({
   const [isShowPerson, setIsShowPerson] = useState<boolean>(false);
   const [personCount, setPersonCount] = useState<number>(1);
   const [isFormikBlock, setIsFormikBlock] = useState<boolean>(false);
+  const [isSelectBlock, setIsSelectBlock] = useState<boolean>(false);
 
   // const {
   //   data: person,
@@ -149,14 +151,24 @@ export default function AppModule4({
           <h2>Block: InfinitePaginationScroll</h2>
           <InfinitePaginationScroll />
           <h2>Block: Formik</h2>
+          <div>
+            <Button
+              text={isFormikBlock ? 'Hide FormikBlock' : 'Show FormikBlock'}
+              variant={isFormikBlock ? 'primary' : undefined}
+              onClick={() => {
+                setIsFormikBlock(!isFormikBlock);
+              }}
+            />
+            {isFormikBlock && <FormikBlock />}
+          </div>
+          <h2>Block: InfinitePaginationSelect</h2>
           <Button
-            text={isFormikBlock ? 'Hide FormikBlock' : 'Show FormikBlock'}
-            variant={isFormikBlock ? 'primary' : undefined}
-            onClick={() => {
-              setIsFormikBlock(!isFormikBlock);
-            }}
+            text={isSelectBlock ? 'Hide select block' : 'Show select block'}
+            variant={isSelectBlock ? 'primary' : undefined}
+            onClick={() => setIsSelectBlock(!isSelectBlock)}
           />
-          <div>{isFormikBlock && <FormikBlock />}</div>
+          {isSelectBlock && <InfinitePaginationSelect />}
+          <div></div>
 
           <Button
             text={modules.module4 ? 'Hide module_4' : 'Show module4'}
