@@ -19,7 +19,7 @@ export default function PersonInfo2({ person }: PersonProps) {
           if (
             key !== 'url' &&
             typeof value === 'string' &&
-            value.startsWith('https://swapi.info/api/')
+            value.startsWith('https://swapi.dev/api/')
           ) {
             return Promise.all([
               key,
@@ -33,7 +33,7 @@ export default function PersonInfo2({ person }: PersonProps) {
           if (Array.isArray(value)) {
             const arrayValue = Promise.all(
               value.map(async (valueItem) => {
-                if (valueItem.startsWith('https://swapi.info/api/')) {
+                if (valueItem.startsWith('https://swapi.dev/api/')) {
                   return axios
                     .get<{ title?: string; name?: string }>(valueItem)
                     .then(

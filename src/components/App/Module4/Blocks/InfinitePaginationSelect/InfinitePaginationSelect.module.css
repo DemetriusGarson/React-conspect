@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+}
+
+.listContainer {
+  position: absolute;
+  top: 30px;
+  width: 300px;
+  max-height: 300px;
+  background-color: var(--color-background-secondary);
+  overflow: auto;
+}
+
+.selectTextContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 30px;
+  width: 300px;
+
+  border: 1px solid gray;
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.selectText {
+  margin: 0;
+}
+.selectChevron {
+  font-size: 20px;
+  transition: transform 200ms ease;
+}
+.selectChevron.open {
+  transform: rotate(180deg);
+}
