@@ -3,7 +3,7 @@ import OrderForm from '../../OrderForm/OrderForm';
 import ReactForm from '../../ReactForm/ReactForm';
 import SearchForm from '../../SearchForm/SearchForm';
 import SimpleForm from '../../SimpleForm/SimpleForm';
-import type { ModuleOptions, Modules } from '../../types/Modules';
+import type { ModuleProps } from '../../types/Modules';
 import type { Article } from '../../types/Article';
 import { useEffect, useState } from 'react';
 import ArticlesList from '../../ArticlesList/ArticlesList';
@@ -18,11 +18,6 @@ import PersonInfo2 from '../../PersonInfo2/PersonInfo2';
 // import Modal2 from '../../Modal2/Modal2';
 // import Modal3 from '../../Modal3/Modal3';
 
-interface AppModule3Props {
-  modules: Modules;
-  visibilityHandler: (module: ModuleOptions) => void;
-}
-
 export interface handleOrderProps {
   username: string;
   deliveryMethod: string;
@@ -30,9 +25,9 @@ export interface handleOrderProps {
   deliveryTime: string;
 }
 export default function AppModule3({
-  modules,
+  moduleName,
   visibilityHandler,
-}: AppModule3Props) {
+}: ModuleProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
@@ -132,104 +127,97 @@ export default function AppModule3({
 
   return (
     <>
-      {modules.module3 && (
-        <>
-          <h1>MODULE_3: Форми та ефекти</h1>
+      <h1>MODULE_3: Форми та ефекти</h1>
 
-          <h2>Block: Modal</h2>
-          <div>
-            <Button text="Open Modal" onClick={openModal} />
-            {isModal && (
-              <Modal onClose={closeModal}>
-                <p>Props children</p>
-              </Modal>
-            )}
-          </div>
+      <h2>Block: Modal</h2>
+      <div>
+        <Button text="Open Modal" onClick={openModal} />
+        {isModal && (
+          <Modal onClose={closeModal}>
+            <p>Props children</p>
+          </Modal>
+        )}
+      </div>
 
-          <h2>Block: Forms</h2>
-          <div>
-            <SimpleForm />
-            <ReactForm />
-          </div>
+      <h2>Block: Forms</h2>
+      <div>
+        <SimpleForm />
+        <ReactForm />
+      </div>
 
-          <h2>Block: Place your order</h2>
-          <div>
-            <OrderForm onSubmit={handleOrder} />
-          </div>
+      <h2>Block: Place your order</h2>
+      <div>
+        <OrderForm onSubmit={handleOrder} />
+      </div>
 
-          <h2>Block: Enter search text</h2>
-          <div>
-            <SearchForm onSubmit={handleSearch} />
-            {isLoading && <Loader />}
-            {isError && <ErrorMessage />}
-            {articles.length > 0 && <ArticlesList articles={articles} />}
-          </div>
+      <h2>Block: Enter search text</h2>
+      <div>
+        <SearchForm onSubmit={handleSearch} />
+        {isLoading && <Loader />}
+        {isError && <ErrorMessage />}
+        {articles.length > 0 && <ArticlesList articles={articles} />}
+      </div>
 
-          <h2>Block: Person</h2>
+      <h2>Block: Person</h2>
+      <div>
+        <Button
+          text={showPerson ? 'Hide Person Block' : 'Show Person Block'}
+          onClick={toggleShowPerson}
+        ></Button>
+        {showPerson && (
           <div>
+            <h3>Person Navigation</h3>
             <Button
-              text={showPerson ? 'Hide Person Block' : 'Show Person Block'}
-              onClick={toggleShowPerson}
-            ></Button>
-            {showPerson && (
-              <>
-                <h3>Person Navigation</h3>
-                <Button
-                  text="< Show previous Person "
-                  onClick={() => {
-                    if (count >= 1) setCount(count - 1);
-                  }}
-                />
-                <Button
-                  text="Show next Person >"
-                  onClick={() => {
-                    setCount(count + 1);
-                  }}
-                />
-                <Button
-                  text="Reset Person"
-                  onClick={() => {
-                    setCount(1);
-                  }}
-                />
-
-                {person && (
-                  <>
-                    <p>{`Current person No: ${count}`}</p>
-                    <PersonInfo2 person={person} />
-                  </>
-                )}
-              </>
-            )}
-          </div>
-
-          <h2>Block: Timer </h2>
-          <div>
-            <Button
-              text={isTimerOpen ? 'Hide Timer' : 'Show Timer'}
+              text="< Show previous Person "
               onClick={() => {
-                setIsTimerOpen(!isTimerOpen);
+                if (count >= 1) setCount(count - 1);
               }}
             />
-            {isTimerOpen && <Timer />}
-          </div>
-
-          <h2>Block: Clicks to local Storage </h2>
-          <div>
             <Button
-              text={String(clicks)}
-              onClick={() => setClicks(clicks + 1)}
+              text="Show next Person >"
+              onClick={() => {
+                setCount(count + 1);
+              }}
             />
-            <Button text="Reset clicks" onClick={() => setClicks(0)} />
-          </div>
+            <Button
+              text="Reset Person"
+              onClick={() => {
+                setCount(1);
+              }}
+            />
 
-          <Button
-            text={modules.module3 ? 'Hide Module_3' : 'Show Module_3'}
-            variant={modules.module3 ? 'primary' : undefined}
-            onClick={() => visibilityHandler('module3')}
-          />
-        </>
-      )}
+            {person && (
+              <div>
+                <p>{`Current person No: ${count}`}</p>
+                <PersonInfo2 person={person} />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <h2>Block: Timer </h2>
+      <div>
+        <Button
+          text={isTimerOpen ? 'Hide Timer' : 'Show Timer'}
+          onClick={() => {
+            setIsTimerOpen(!isTimerOpen);
+          }}
+        />
+        {isTimerOpen && <Timer />}
+      </div>
+
+      <h2>Block: Clicks to local Storage </h2>
+      <div>
+        <Button text={String(clicks)} onClick={() => setClicks(clicks + 1)} />
+        <Button text="Reset clicks" onClick={() => setClicks(0)} />
+      </div>
+
+      <Button
+        text={`Hide ${moduleName}`}
+        variant="primary"
+        onClick={() => visibilityHandler(moduleName)}
+      />
     </>
   );
 }

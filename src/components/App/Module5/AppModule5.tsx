@@ -1,29 +1,28 @@
 // import css from './AppModule5.module.css'
 
 import Button from '../../Button/Button';
-import type { ModuleOptions, Modules } from '../../types/Modules';
-
-interface AppModule5Props {
-  modules: Modules;
-  visibilityHandler: (module: ModuleOptions) => void;
-}
+import type { ModuleProps } from '../../types/Modules';
+import BlockMutation from './BlocksModule5/BlockMutation/BlockMutation';
+import BlockBar from '../../BlockBar/BlockBar';
 
 export default function AppModule5({
-  modules,
+  moduleName,
   visibilityHandler,
-}: AppModule5Props) {
+}: ModuleProps) {
+  const blockComponents = {
+    BlockMutation,
+  };
+
   return (
-    <>
-      {modules.module5 && (
-        <>
-          <h1>MODULE_5 Mutations</h1>
-          <Button
-            text={modules.module5 ? 'Hide Module_5' : 'Show Module_5'}
-            variant={modules.module5 ? 'primary' : undefined}
-            onClick={() => visibilityHandler('module5')}
-          />
-        </>
-      )}
-    </>
+    <div>
+      <h1>MODULE_5 Mutations</h1>
+      <BlockBar blocks={blockComponents} />
+
+      <Button
+        text={`Hide ${moduleName}`}
+        variant="primary"
+        onClick={() => visibilityHandler(moduleName)}
+      />
+    </div>
   );
 }

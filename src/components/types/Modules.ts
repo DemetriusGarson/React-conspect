@@ -1,8 +1,8 @@
-export interface Modules {
-  module2: boolean;
-  module3: boolean;
-  module4: boolean;
-  module5: boolean;
+export type Modules = Record<string, boolean>;
+
+export interface ModuleProps {
+  moduleName: string;
+  visibilityHandler: (module: string) => void;
 }
 
 export type ModuleOptions = 'module2' | 'module3' | 'module4' | 'module5';

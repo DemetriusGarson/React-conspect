@@ -1,0 +1,13 @@
+.buttonsList {
+  display: flex;
+  gap: 10px;
+}
+
+.blockNameContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.blockNameContainer button {
+  height: 36px;
+}

@@ -1,6 +1,6 @@
 import { keepPreviousData, useQueries } from '@tanstack/react-query';
 import Button from '../../Button/Button';
-import type { ModuleOptions, Modules } from '../../types/Modules';
+import type { ModuleProps } from '../../types/Modules';
 import {
   fetchPerson,
   fetchPersonTotalPages,
@@ -15,14 +15,10 @@ import InfinitePaginationScroll from './Blocks/InfinitePaginationScroll/Infinite
 import FormikBlock from './Blocks/FormikBlock/FormikBlock';
 import InfinitePaginationSelect from './Blocks/InfinitePaginationSelect/InfinitePaginationSelect';
 
-interface AppModule4Props {
-  modules: Modules;
-  visibilityHandler: (module: ModuleOptions) => void;
-}
 export default function AppModule4({
-  modules,
+  moduleName,
   visibilityHandler,
-}: AppModule4Props) {
+}: ModuleProps) {
   const [isShowPerson, setIsShowPerson] = useState<boolean>(false);
   const [personCount, setPersonCount] = useState<number>(1);
   const [isFormikBlock, setIsFormikBlock] = useState<boolean>(false);
@@ -91,92 +87,90 @@ export default function AppModule4({
 
   return (
     <>
-      {modules.module4 && (
-        <>
-          <h1>MODULE_4 React Query, Formik</h1>
-          <h2> Block: Use Query,Person</h2>
-          <div>
-            <Button
-              text={isShowPerson ? 'Hide Person' : 'Show Person'}
-              variant={isShowPerson ? 'primary' : undefined}
-              onClick={() => setIsShowPerson(!isShowPerson)}
-            />
-            {isShowPerson && (
-              <div className="personBlock">
-                <div className="personButtons">
-                  <Button
-                    text="<Prev Person"
-                    onClick={() => {
-                      if (personCount > 1) setPersonCount(personCount - 1);
-                    }}
-                  />
-                  <Button
-                    text="Next Person>"
-                    onClick={() => setPersonCount(personCount + 1)}
-                  />
-                </div>
-                <div className="personFrom">
-                  <form action={handlePersonForm}>
-                    <label htmlFor="person_number">Enter person number:</label>
-                    <input
-                      type="number"
-                      id="person_number"
-                      name="person_number"
-                    />
-                    <button type="submit">Enter</button>
-                  </form>
-                </div>
-                <div className="personInfo">
-                  {(isPersonLoading || isTotalPagesLoading) && <Loader />}
-                  {isPersonError && <ErrorMessage err={personError} />}
-                  {isTotalPagesError && <ErrorMessage err={totalPagesError} />}
-                  {person && (
-                    <div className="pagination">
-                      {IsTotalPagesSuccess && totalPages > 0 && (
-                        <Pagination
-                          totalPages={totalPages}
-                          currentPage={personCount}
-                          onPageChange={setPersonCount}
-                        />
-                      )}
-                      <PersonInfo2 person={person} />
-                    </div>
-                  )}
-                </div>
+      <>
+        <h1>MODULE_4 React Query, Formik</h1>
+        <h2> Block: Use Query,Person</h2>
+        <div>
+          <Button
+            text={isShowPerson ? 'Hide Person' : 'Show Person'}
+            variant={isShowPerson ? 'primary' : undefined}
+            onClick={() => setIsShowPerson(!isShowPerson)}
+          />
+          {isShowPerson && (
+            <div className="personBlock">
+              <div className="personButtons">
+                <Button
+                  text="<Prev Person"
+                  onClick={() => {
+                    if (personCount > 1) setPersonCount(personCount - 1);
+                  }}
+                />
+                <Button
+                  text="Next Person>"
+                  onClick={() => setPersonCount(personCount + 1)}
+                />
               </div>
-            )}
-          </div>
-          <h2>Block: InfinitePagination</h2>
-          <InfinitePagination />
-          <h2>Block: InfinitePaginationScroll</h2>
-          <InfinitePaginationScroll />
-          <h2>Block: Formik</h2>
-          <div>
-            <Button
-              text={isFormikBlock ? 'Hide FormikBlock' : 'Show FormikBlock'}
-              variant={isFormikBlock ? 'primary' : undefined}
-              onClick={() => {
-                setIsFormikBlock(!isFormikBlock);
-              }}
-            />
-            {isFormikBlock && <FormikBlock />}
-          </div>
-          <h2>Block: InfinitePaginationSelect</h2>
+              <div className="personFrom">
+                <form action={handlePersonForm}>
+                  <label htmlFor="person_number">Enter person number:</label>
+                  <input
+                    type="number"
+                    id="person_number"
+                    name="person_number"
+                  />
+                  <button type="submit">Enter</button>
+                </form>
+              </div>
+              <div className="personInfo">
+                {(isPersonLoading || isTotalPagesLoading) && <Loader />}
+                {isPersonError && <ErrorMessage err={personError} />}
+                {isTotalPagesError && <ErrorMessage err={totalPagesError} />}
+                {person && (
+                  <div className="pagination">
+                    {IsTotalPagesSuccess && totalPages > 0 && (
+                      <Pagination
+                        totalPages={totalPages}
+                        currentPage={personCount}
+                        onPageChange={setPersonCount}
+                      />
+                    )}
+                    <PersonInfo2 person={person} />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+        <h2>Block: InfinitePagination</h2>
+        <InfinitePagination />
+        <h2>Block: InfinitePaginationScroll</h2>
+        <InfinitePaginationScroll />
+        <h2>Block: Formik</h2>
+        <div>
           <Button
-            text={isSelectBlock ? 'Hide select block' : 'Show select block'}
-            variant={isSelectBlock ? 'primary' : undefined}
-            onClick={() => setIsSelectBlock(!isSelectBlock)}
+            text={isFormikBlock ? 'Hide FormikBlock' : 'Show FormikBlock'}
+            variant={isFormikBlock ? 'primary' : undefined}
+            onClick={() => {
+              setIsFormikBlock(!isFormikBlock);
+            }}
           />
-          {isSelectBlock && <InfinitePaginationSelect />}
-          <div></div>
+          {isFormikBlock && <FormikBlock />}
+        </div>
+        <h2>Block: InfinitePaginationSelect</h2>
+        <Button
+          text={isSelectBlock ? 'Hide select block' : 'Show select block'}
+          variant={isSelectBlock ? 'primary' : undefined}
+          onClick={() => setIsSelectBlock(!isSelectBlock)}
+        />
+        {isSelectBlock && <InfinitePaginationSelect />}
+        <div></div>
 
-          <Button
-            text={modules.module4 ? 'Hide module_4' : 'Show module4'}
-            variant={modules.module4 ? 'primary' : undefined}
-            onClick={() => visibilityHandler('module4')}
-          />
-        </>
-      )}
+        <Button
+          text={`Hide ${moduleName}`}
+          variant="primary"
+          onClick={() => visibilityHandler(moduleName)}
+        />
+      </>
     </>
   );
 }
